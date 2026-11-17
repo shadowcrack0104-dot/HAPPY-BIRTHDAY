@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Arija 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 10%, #1a0b2e, #0a0416);
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            padding: 16px;
+            perspective: 1200px;
+            overflow-x: hidden;
+        }
+
+        /* ---- 3D floating particles background ---- */
+        .stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffb3e6;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ff69b4, 0 0 24px #b300b3;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.15; transform: scale(0.8); }
+            100% { opacity: 0.9; transform: scale(1.6); }
+        }
+
+        /* ---- main 3D card container ---- */
+        .card-scene {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 460px;
+            transform-style: preserve-3d;
+            animation: float3d 6s infinite ease-in-out;
+        }
+
+        @keyframes float3d {
+            0% { transform: rotateX(1deg) rotateY(-2deg) translateY(0); }
+            50% { transform: rotateX(4deg) rotateY(5deg) translateY(-8px); }
+            100% { transform: rotateX(1deg) rotateY(-2deg) translateY(0); }
+        }
+
+        /* ---- closed box (tap to open) ---- */
+        .closed-box {
+            background: linear-gradient(145deg, #2a1b3d, #1d1129);
+            border-radius: 48px 48px 32px 32px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: 
+                0 30px 40px -20px rgba(0, 0, 0, 0.9),
+                0 0 0 2px rgba(255, 105, 180, 0.25),
+                0 0 40px rgba(255, 20, 147, 0.3),
+                inset 0 -6px 12px rgba(0, 0, 0, 0.6);
+            border-bottom: 6px solid #ff69b4;
+            transform: translateZ(30px);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            cursor: pointer;
+            backdrop-filter: blur(2px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .closed-box::before {
+            content: "🎁";
+            position: absolute;
+            font-size: 90px;
+            opacity: 0.08;
+            right: -10px;
+            bottom: -20px;
+            transform: rotate(15deg);
+            pointer-events: none;
+        }
+
+        .closed-box:hover {
+            transform: translateZ(40px) scale(1.01);
+            box-shadow: 0 40px 50px -20px black, 0 0 0 3px #ffb6e6, 0 0 70px #ff1493;
+        }
+
+        .closed-box:active {
+            transform: translateZ(20px) scale(0.98);
+        }
+
+        .tap-text {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #fff0f9;
+            text-shadow: 
+                0 0 8px #ff69b4,
+                0 0 20px #ff1493,
+                0 0 40px #b300b3,
+                0 2px 4px black;
+            animation: neonPulse 1.8s infinite alternate;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        @keyframes neonPulse {
+            0% { opacity: 0.9; text-shadow: 0 0 6px #ff69b4, 0 0 18px #ff1493, 0 0 30px #b300b3; }
+            100% { opacity: 1; text-shadow: 0 0 12px #ffb6e6, 0 0 30px #ff69b4, 0 0 60px #ff1493, 0 0 80px #b300b3; }
+        }
+
+        .sub-tap {
+            color: #d9b3ff;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #bf00ff;
+            border-top: 1px dashed rgba(255, 105, 180, 0.5);
+            padding-top: 18px;
+            margin-top: 10px;
+            animation: softGlow 2.5s infinite alternate;
+        }
+
+        @keyframes softGlow {
+            from { opacity: 0.7; }
+            to { opacity: 1; text-shadow: 0 0 14px #ff69b4, 0 0 28px #bf00ff; }
+        }
+
+        /* ---- opened content (hidden initially) ---- */
+        .opened-content {
+            display: none;
+            background: linear-gradient(160deg, #1e102b, #13081f);
+            border-radius: 40px 40px 28px 28px;
+            padding: 28px 22px 24px;
+            box-shadow: 
+                0 30px 50px -15px black,
+                0 0 0 2px rgba(255, 105, 180, 0.5),
+                0 0 70px rgba(255, 20, 147, 0.5),
+                inset 0 0 30px rgba(255, 105, 180, 0.2);
+            border-bottom: 8px solid #ff69b4;
+            transform: translateZ(40px) rotateX(0.5deg);
+            transition: all 0.5s ease;
+            backdrop-filter: blur(4px);
+            position: relative;
+            word-break: break-word;
+            overflow: hidden;
+        }
+
+        .opened-content::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 10%, rgba(255, 105, 180, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ---- top birthday emoji + name ---- */
+        .bday-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding: 0 4px;
+        }
+
+        .bday-emoji {
+            font-size: 2.4rem;
+            filter: drop-shadow(0 0 16px #ff69b4);
+            animation: bounceEmoji 2s infinite;
+        }
+
+        @keyframes bounceEmoji {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .wisher-name {
+            font-size: 1.7rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffb6e6, #ff69b4, #bf00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 25px #ff69b4, 0 0 45px #b300b3;
+            letter-spacing: 2px;
+            animation: nameShine 3s infinite alternate;
+        }
+
+        @keyframes nameShine {
+            0% { filter: drop-shadow(0 0 8px #ff69b4); }
+            100% { filter: drop-shadow(0 0 20px #ff1493) drop-shadow(0 0 35px #bf00ff); }
+        }
+
+        /* ---- TYPING CONTAINER (mobile safe) ---- */
+        .wish-typing-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 32px;
+            padding: 14px 16px 14px 18px;
+            margin: 8px 0 18px 0;
+            border: 1px solid rgba(255, 105, 180, 0.6);
+            box-shadow: 
+                0 0 20px #ff1493 inset,
+                0 0 15px #b300b3;
+            backdrop-filter: blur(2px);
+            min-height: 80px;
+        }
+
+        .wish-typing-text {
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #fceeff;
+            text-shadow: 0 0 8px #ff69b4, 0 0 16px #b300b3;
+            letter-spacing: 0.2px;
+            word-break: break-word;
+            white-space: pre-wrap;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background: #ff69b4;
+            box-shadow: 0 0 12px #ff1493, 0 0 24px #bf00ff;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 0.9s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ---- right side shadow text (dan pashe lekha) ---- */
+        .shadow-side {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 4px;
+            padding: 6px 0;
+        }
+
+        .shadow-zrx {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(145deg, #ffb6e6, #ff69b4, #bf00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 
+                0 0 10px #ff69b4,
+                0 0 25px #ff1493,
+                0 0 45px #b300b3,
+                4px 4px 0 rgba(0, 0, 0, 0.5);
+            transform: rotate(-1deg) translateZ(25px);
+            animation: shadowGlow 2.2s infinite alternate;
+            white-space: nowrap;
+        }
+
+        @keyframes shadowGlow {
+            0% { text-shadow: 0 0 8px #ff69b4, 0 0 18px #ff1493, 0 0 30px #b300b3; }
+            100% { text-shadow: 0 0 18px #ffb6e6, 0 0 40px #ff69b4, 0 0 70px #bf00ff, 0 0 90px #ff1493; }
+        }
+
+        .heart-beat {
+            font-size: 1.6rem;
+            margin-left: 8px;
+            filter: drop-shadow(0 0 16px #ff1493);
+            animation: heartBeat 1.4s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.25); }
+            60% { transform: scale(1.1); }
+        }
+
+        /* ---- small footer / extra glow ---- */
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #b380ff;
+            letter-spacing: 1px;
+            margin-top: 12px;
+            opacity: 0.9;
+            text-shadow: 0 0 10px #bf00ff;
+        }
+
+        /* ---- Responsive tweaks for very small screens ---- */
+        @media (max-width: 380px) {
+            .closed-box { padding: 30px 16px; }
+            .tap-text { font-size: 1.5rem; letter-spacing: 2px; }
+            .wisher-name { font-size: 1.4rem; }
+            .wish-typing-text { font-size: 0.9rem; }
+            .shadow-zrx { font-size: 1.2rem; letter-spacing: 2px; }
+            .bday-emoji { font-size: 2rem; }
+            .heart-beat { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- floating 3D stars / particles -->
+    <div class="stars" id="starsContainer"></div>
+
+    <!-- main 3D card scene -->
+    <div class="card-scene" id="cardScene">
+        <!-- CLOSED BOX (tap to open) -->
+        <div class="closed-box" id="closedBox">
+            <div class="tap-text">🎁 TAP TO OPEN 🎁</div>
+            <div class="sub-tap">✨ Arija's surprise ✨</div>
+        </div>
+
+        <!-- OPENED CONTENT (hidden until tap) -->
+        <div class="opened-content" id="openedContent">
+            <!-- top : bday emoji left, name right (but actually left side emoji right name) -->
+            <div class="bday-header">
+                <span class="bday-emoji">🎂</span>
+                <span class="wisher-name">Arija</span>
+            </div>
+
+            <!-- typing area with neon effect -->
+            <div class="wish-typing-wrapper">
+                <div class="wish-typing-text" id="wishTypingText">
+                    <span id="typedText"></span><span class="cursor-blink"></span>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE TEXT: SHADOW ZRX 💞 (dan pashe) -->
+            <div class="shadow-side">
+                <span class="shadow-zrx">SHADOW ZRX</span>
+                <span class="heart-beat">💞</span>
+            </div>
+
+            <div class="footer-note">✨ শুভ জন্মদিন, Arija ✨</div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- generate floating stars ----------
+            const starsContainer = document.getElementById('starsContainer');
+            const starCount = 45;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 4 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.opacity = Math.random() * 0.5 + 0.2;
+                starsContainer.appendChild(star);
+            }
+
+            // ---------- DOM elements ----------
+            const closedBox = document.getElementById('closedBox');
+            const openedContent = document.getElementById('openedContent');
+            const typedTextSpan = document.getElementById('typedText');
+            const wishTypingText = document.getElementById('wishTypingText');
+
+            // ---------- WISH TEXT (Bengali + English) ----------
+            const wishMessage = `আজ তোমার দিন — ভালোবাসা আর শুভেচ্ছায় ভরে উঠুক! 🌸
+
+তুমি যেমন সবার প্রিয়, তেমনি তোমার জীবনও ভরে উঠুক সুখ, শান্তি আর সাফল্যে। তোমার স্বপ্নগুলো একে একে সত্যি হোক, প্রতিটি দিন হোক আগের চেয়ে সুন্দর। নিজের যত্ন নিও, হাসিখুশি থেকো, আর সবসময় এমনই মিষ্টি থেকো। 💖
+
+শুভ জন্মদিন, Arija 🎈✨`;
+
+            // typed effect variables
+            let typingIndex = 0;
+            let typingInterval = null;
+            let isOpened = false;
+
+            // ---------- open box function ----------
+            function openBox() {
+                if (isOpened) return;
+                isOpened = true;
+
+                // hide closed box, show opened content
+                closedBox.style.display = 'none';
+                openedContent.style.display = 'block';
+
+                // tiny 3D transition effect
+                openedContent.style.transform = 'translateZ(50px) rotateX(0deg) scale(1.02)';
+                setTimeout(() => {
+                    openedContent.style.transform = 'translateZ(40px) rotateX(0.5deg) scale(1)';
+                }, 150);
+
+                // start typing after a small delay
+                setTimeout(() => {
+                    startTyping();
+                }, 400);
+            }
+
+            // ---------- premium typing effect ----------
+            function startTyping() {
+                // clear any previous interval
+                if (typingInterval) clearInterval(typingInterval);
+
+                // reset typed text
+                typedTextSpan.textContent = '';
+                typingIndex = 0;
+
+                // ensure cursor is visible
+                const cursor = document.querySelector('.cursor-blink');
+                if (cursor) cursor.style.display = 'inline-block';
+
+                typingInterval = setInterval(() => {
+                    if (typingIndex < wishMessage.length) {
+                        // append one character
+                        typedTextSpan.textContent += wishMessage.charAt(typingIndex);
+                        typingIndex++;
+                    } else {
+                        // typing finished: keep cursor blinking or remove? keep it blinking for premium feel
+                        clearInterval(typingInterval);
+                        typingInterval = null;
+
+                        // optional: hide cursor after finish? no, keep for neon effect but stop blinking? keep blinking
+                        // we leave it blinking forever
+                    }
+                }, 40); // 40ms per char => smooth & premium
+            }
+
+            // ---------- event listener: tap anywhere on closed box ----------
+            closedBox.addEventListener('click', openBox);
+            // also for touch devices (to avoid double tap zoom, but fine)
+            closedBox.addEventListener('touchstart', (e) => {
+                e.preventDefault();  // prevent ghost click
+                openBox();
+            }, { passive: false });
+
+            // prevent double firing on mobile (touch + click)
+            let touchHandled = false;
+            closedBox.addEventListener('touchstart', () => {
+                touchHandled = true;
+                setTimeout(() => { touchHandled = false; }, 500);
+            }, { passive: true });
+
+            closedBox.addEventListener('click', (e) => {
+                if (touchHandled) {
+                    e.preventDefault();
+                    return;
+                }
+                // openBox already called via touchstart? but we have touchstart with preventDefault
+                // actually we call openBox in touchstart, so click may also fire. we guard with isOpened.
+                // but if touchstart is prevented, click won't fire. But we have both, so openBox in touchstart
+                // and also click. we use isOpened flag. 
+                // However we already openBox in touchstart. So click will be ignored via isOpened.
+                // But if browser triggers click after touch, isOpened is true => nothing happens. Good.
+            });
+
+            // ensure that after open, we don't restart typing if already opened
+            // no extra needed
+
+            // add a tiny parallax effect on card scene (optional 3D)
+            const cardScene = document.getElementById('cardScene');
+            document.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 768) return; // only for desktop
+                const x = (e.clientX / window.innerWidth - 0.5) * 6;
+                const y = (e.clientY / window.innerHeight - 0.5) * 6;
+                cardScene.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+            });
+
+            // reset on mouse leave
+            document.addEventListener('mouseleave', () => {
+                cardScene.style.transform = '';
+            });
+        })();
+    </script>
+</body>
+</html>
